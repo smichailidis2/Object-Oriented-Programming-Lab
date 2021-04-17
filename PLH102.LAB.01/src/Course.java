@@ -17,7 +17,7 @@ public class Course {
 	}
 
 	public void setCode(String code) {
-		this.code = code;  //rrrrrrrrrrrrrrrrrrrrrr
+		this.code = code;  
 	}
 
 	public String getTitle() {
