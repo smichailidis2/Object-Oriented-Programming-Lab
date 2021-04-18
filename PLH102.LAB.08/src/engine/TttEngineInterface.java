@@ -1,16 +1,12 @@
 package engine;
 
 public interface TttEngineInterface {
-	
-	
-	public void initPosition();
-	//	Initianlizes all board cells to be empty.
 
 	public void switchPlayer();
 	//	Sitches the player after a move is made, so one player cannot make two consecutive moves.
 
 	public boolean playerToMove();
-	//	initializes the player who is first to play.
+	//	initializes the player who is to play.
 
 	public void makeMove(Coordinates c);
 	/*	Makes a move for the current player/AI selected; Also throws exception finalBoardEXCEPTION if board is final;
@@ -24,12 +20,12 @@ public interface TttEngineInterface {
 	public Coordinates getBestmove();
 	//	Returns th ecoordinates of the next move player hal_AI will make.
 	
-	public boolean bestBoard();
+	
+	public int bestBoard(boolean player_to_move, int[][] board);
 	//	Evaluates board every move to avoid illegal boards.
 
 	public boolean isFinalBoard();
 	//	Checks if board is final.
-	
 	
 	
 	
