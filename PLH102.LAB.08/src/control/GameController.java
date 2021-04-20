@@ -3,6 +3,8 @@ package control;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import engine.TttEngine;
+import engine.TttEngineInterface;
 import model.GameModel;
 import model.PlayersCatalogue;
 import view.MainAreaPanel;
@@ -11,9 +13,10 @@ import view.MainWindow;
 public class GameController extends WindowAdapter {
 	MainWindow view;
 	GameModel model;
+	public TttEngineInterface engine;
 	
-	public GameController() {		
-		
+	public GameController(TttEngineInterface e) {		
+		this.engine = e;
 	}
 	
 	@Override
@@ -47,6 +50,8 @@ public class GameController extends WindowAdapter {
 		this.view.getMainPanel().showCard(MainAreaPanel.BOARD);
 		this.view.getLeftPanel().getSelectPlayerBtn().setEnabled(model.NoPlay());
 		this.view.getRightPanel().getSelectPlayerBtn().setEnabled(model.NoPlay());
+		
+		this.engine.gameReset();
 	}
 	
 	public GameModel getModel() {

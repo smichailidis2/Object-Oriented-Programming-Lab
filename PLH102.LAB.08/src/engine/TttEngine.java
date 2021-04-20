@@ -5,42 +5,55 @@ import java.util.Random;
 public class TttEngine implements TttEngineInterface{
 	
 	
-	private boolean playerThatMovedLast = false;    //1st player ( X ) -> false || 2cond ( O ) player -> true
+	private boolean playerToMove = true;	//( X ) -> false || ( O ) player -> true
 	
-	private Board b = null;
+	private Board board = null;
 	
 	public TttEngine() {
-		b = new Board(); //Creates empty board;
+		
 	}
 	
 
 	@Override
 	public void switchPlayer() {
-		// TODO Auto-generated method stub
-		
+		playerToMove = !playerToMove;
 	}
 
 	@Override
 	public boolean playerToMove() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
-	public void makeMove(Coordinates c) {
-		// TODO Auto-generated method stub
+	public void makeMove(Coordinates c) throws TttExceptions,TttFinalBoardException{
 		
+		if (board.number_of_free_cells == 0) {
+			throw new TttFinalBoardException();
+		}
+		
+		if(playerToMove == true) {
+			board.setCellValue(c, 2); //put O 
+		} else {
+			board.setCellValue(c, 1); //put X
+		}
+	
+		
+		
+		//check if win condition reached for the current player - 'playerToMove'		
+		if(this.hasPlayerWon(playerToMove)) {
+			throw new TttExceptions(TttExceptions.WINNING_POSITION,TttExceptions.WINNING_POSITION_DESCRIPTION);
+		}
+		
+		this.switchPlayer();
 	}
 
 	@Override
 	public Coordinates getMrBEANmove() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Coordinates getBestmove() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -79,16 +92,23 @@ public class TttEngine implements TttEngineInterface{
 		int cell_val = (player) ? 2 : 1;
 		
 			return 
-				   (b.getCellValue(new Coordinates(0,0) ) == cell_val && b.getCellValue(new Coordinates(0,1) ) == cell_val  && b.getCellValue(new Coordinates(0,2) ) == 1) 
-			   ||  (b.getCellValue(new Coordinates(1,0) ) == cell_val && b.getCellValue(new Coordinates(1,1) ) == cell_val  && b.getCellValue(new Coordinates(1,2) ) == 1) 
-			   ||  (b.getCellValue(new Coordinates(2,0) ) == cell_val && b.getCellValue(new Coordinates(2,1) ) == cell_val  && b.getCellValue(new Coordinates(2,2) ) == 1) 
-			   ||  (b.getCellValue(new Coordinates(0,0) ) == cell_val && b.getCellValue(new Coordinates(1,0) ) == cell_val  && b.getCellValue(new Coordinates(2,0) ) == 1) 
-    		   ||  (b.getCellValue(new Coordinates(0,1) ) == cell_val && b.getCellValue(new Coordinates(1,1) ) == cell_val  && b.getCellValue(new Coordinates(2,1) ) == 1) 
-	    	   ||  (b.getCellValue(new Coordinates(0,2) ) == cell_val && b.getCellValue(new Coordinates(1,2) ) == cell_val  && b.getCellValue(new Coordinates(2,2) ) == 1) 
-	    	   ||  (b.getCellValue(new Coordinates(0,0) ) == cell_val && b.getCellValue(new Coordinates(1,1) ) == cell_val  && b.getCellValue(new Coordinates(2,2) ) == 1)
-	    	   ||  (b.getCellValue(new Coordinates(2,0) ) == cell_val && b.getCellValue(new Coordinates(1,1) ) == cell_val  && b.getCellValue(new Coordinates(0,2) ) == 1);
+				   (board.getCellValue(new Coordinates(0,0) ) == cell_val && board.getCellValue(new Coordinates(0,1) ) == cell_val  && board.getCellValue(new Coordinates(0,2) ) == cell_val) 
+			   ||  (board.getCellValue(new Coordinates(1,0) ) == cell_val && board.getCellValue(new Coordinates(1,1) ) == cell_val  && board.getCellValue(new Coordinates(1,2) ) == cell_val) 
+			   ||  (board.getCellValue(new Coordinates(2,0) ) == cell_val && board.getCellValue(new Coordinates(2,1) ) == cell_val  && board.getCellValue(new Coordinates(2,2) ) == cell_val) 
+			   ||  (board.getCellValue(new Coordinates(0,0) ) == cell_val && board.getCellValue(new Coordinates(1,0) ) == cell_val  && board.getCellValue(new Coordinates(2,0) ) == cell_val) 
+    		   ||  (board.getCellValue(new Coordinates(0,1) ) == cell_val && board.getCellValue(new Coordinates(1,1) ) == cell_val  && board.getCellValue(new Coordinates(2,1) ) == cell_val) 
+	    	   ||  (board.getCellValue(new Coordinates(0,2) ) == cell_val && board.getCellValue(new Coordinates(1,2) ) == cell_val  && board.getCellValue(new Coordinates(2,2) ) == cell_val) 
+	    	   ||  (board.getCellValue(new Coordinates(0,0) ) == cell_val && board.getCellValue(new Coordinates(1,1) ) == cell_val  && board.getCellValue(new Coordinates(2,2) ) == cell_val)
+	    	   ||  (board.getCellValue(new Coordinates(2,0) ) == cell_val && board.getCellValue(new Coordinates(1,1) ) == cell_val  && board.getCellValue(new Coordinates(0,2) ) == cell_val);
 		
 	}
+	
+	@Override
+	public void gameReset() {
+		board = new Board();
+		this.playerToMove = true; // O always plays first
+	}
+	
 	
 	
 	
@@ -105,11 +125,13 @@ public class TttEngine implements TttEngineInterface{
 		//2 value ... O cell
 		private int[][] tttBoard = new int[tttDimension][tttDimension];
 		
-		private int number_of_free_cells = 9;
+		private int number_of_free_cells;
 		
 		//creates empty board
 		public Board() {					
 			initPosition();
+			number_of_free_cells = 9;
+			
 		}
 		
 		//copies b board
@@ -151,9 +173,6 @@ public class TttEngine implements TttEngineInterface{
 		}
 		
 	}//Board
-	
-	
-	
 	
 	
 	

@@ -12,6 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import control.GameController;
+import engine.Coordinates;
+import engine.TttExceptions;
+import engine.TttFinalBoardException;
 import model.GameModel;
 
 @SuppressWarnings("serial")
@@ -20,8 +23,10 @@ public class BoardCell extends GamePanel implements MouseListener {
 	public static final int CELL_PADDING = 10;
 
 	int row, col;	
-
+	
 	public boolean highlighted;
+	
+	private GameController gc_p;
 
 	public BoardCell(GameController gc, int row, int col) {
 		super(gc);
@@ -30,6 +35,7 @@ public class BoardCell extends GamePanel implements MouseListener {
 		this.col = col;
 		this.addMouseListener(this);
 		this.highlighted = false;
+		this.gc_p = gc;
 	}
 
 	@Override
@@ -94,6 +100,14 @@ public class BoardCell extends GamePanel implements MouseListener {
 		if (getModel().inPlay()) {
 			getModel().makeMove(row, col);
 			repaint();
+			
+			try {
+				this.gc_p.engine.makeMove(new Coordinates(row,col));
+			} catch (TttExceptions e1) {
+				e1.printStackTrace();
+			} catch (TttFinalBoardException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 

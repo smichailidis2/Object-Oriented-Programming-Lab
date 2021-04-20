@@ -8,7 +8,7 @@ public interface TttEngineInterface {
 	public boolean playerToMove();
 	//	initializes the player who is to play.
 
-	public void makeMove(Coordinates c);
+	public void makeMove(Coordinates c) throws TttExceptions,TttFinalBoardException;
 	/*	Makes a move for the current player/AI selected; Also throws exception finalBoardEXCEPTION if board is final;
 	 * 	Throws exception winEVENT if win condition is met;
 	 * 	Lastly , checks wether the same player tries to make 2 consecutive moves , throws TttException. 
@@ -27,6 +27,6 @@ public interface TttEngineInterface {
 	public boolean isFinalBoard();
 	//	Checks if board is final.
 	
-	
-	
+	public void gameReset();
+	//resets game state... Called when game starts
 }

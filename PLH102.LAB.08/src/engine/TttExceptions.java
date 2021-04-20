@@ -4,10 +4,17 @@ public class TttExceptions extends Exception{
 	
 	private int errorCode;
 	
+	
+	public final static int    WINNING_POSITION = 100;
+	public final static String WINNING_POSITION_DESCRIPTION = "Wining condition reached";
+	
+	
 	private String errorDescription;
 	
-	public TttExceptions() {
+	public TttExceptions(int errcode, String errDecription) {
 		super("TttException");
+		this.errorCode = errcode;
+		this.errorDescription = errDecription;
 	}
 
 	public int getErrorCode() {
