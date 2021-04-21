@@ -81,7 +81,11 @@ public class TttEngine implements TttEngineInterface{
 	}
 	
 	public static int getRandomValue() {
-		return new Random().nextInt(Board.tttDimension + 1);
+		return new Random().nextInt(Board.tttDimension + 1);	//generates random integer from 0 to 3
+	}
+	
+	public static int generatedRandom(int x) {
+		return new Random().nextInt(x + 1);		//generates random integer from 0 to x
 	}
 
 	

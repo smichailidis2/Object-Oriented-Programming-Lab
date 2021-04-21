@@ -101,6 +101,7 @@ public class BoardCell extends GamePanel implements MouseListener {
 			getModel().makeMove(row, col);
 			repaint();
 			
+			//engine interaction
 			try {
 				this.gc_p.engine.makeMove(new Coordinates(row,col));
 			} catch (TttExceptions e1) {
